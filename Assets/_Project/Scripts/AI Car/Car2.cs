@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
-public class CarTriggerTurn : MonoBehaviour
+public class Car2 : MonoBehaviour
 {
+
     public float speed = 15f;  // سرعة السيارة
     public float turnSpeed = 100f; // سرعة الدوران
     public float detectionDistance = 5f;  // المسافة التي تتحقق منها السيارة عن العوائق أمامها
@@ -38,10 +39,10 @@ public class CarTriggerTurn : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("TurnPoint"))
+        if (other.CompareTag("TurnPoint2"))
         {
             Debug.Log("السيارة تلف الآن!");
-            targetRotation *= Quaternion.Euler(0, -90, 0); // تغيير الاتجاه بزاوية 90 درجة
+            targetRotation *= Quaternion.Euler(0, 90, 0); // تغيير الاتجاه بزاوية 90 درجة
         }
     }
 
@@ -61,5 +62,3 @@ public class CarTriggerTurn : MonoBehaviour
         return false; // لا يوجد عائق
     }
 }
-
-
