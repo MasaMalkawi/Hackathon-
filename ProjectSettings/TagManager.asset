@@ -8,6 +8,8 @@ TagManager:
   - TurnPoint2
   - Ground
   - Car
+  - FrontCar
+  - BackCar
   layers:
   - Default
   - TransparentFX
