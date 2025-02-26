@@ -16606,7 +16606,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 561461431}
         m_TargetAssemblyTypeName: ButtonSound, Assembly-CSharp
-        m_MethodName: PlaySound
+        m_MethodName: ToggleSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16677,8 +16677,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b1f0c2a5f701d7045b73c31cef0c45d8, type: 3}
-  m_Resource: {fileID: 8300000, guid: b1f0c2a5f701d7045b73c31cef0c45d8, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c323db2707f82ee4f9eb8efa21f9d6a5, type: 3}
+  m_Resource: {fileID: 8300000, guid: c323db2707f82ee4f9eb8efa21f9d6a5, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
