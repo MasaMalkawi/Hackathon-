@@ -18,6 +18,10 @@ public class ParkingManager : MonoBehaviour
     public GameObject parkingSuccessImage;
     public GameObject warningImage;
 
+    [Header("Parking Requirements")]
+    public Transform parkingZone;  // Assign this to the parking spot in Unity
+    public float angleThreshold = 15f;  // Allowable angle difference
+
     private bool isColliding = false;
     private bool scored = false;
 
@@ -45,7 +49,7 @@ public class ParkingManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (isParkedCorrectly) return; // If already parked, ignore collisions
+        if (isParkedCorrectly) return; // Ignore collisions after parking
 
         if (collision.gameObject.CompareTag("FrontCar") || collision.gameObject.CompareTag("BackCar"))
         {
@@ -66,6 +70,16 @@ public class ParkingManager : MonoBehaviour
                 warningImage.SetActive(true);
                 Invoke("HideWarning", 3f);
             }
+
+            isColliding = true; // Player is touching another car
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("FrontCar") || collision.gameObject.CompareTag("BackCar"))
+        {
+            isColliding = false; // Player is no longer touching other cars
         }
     }
 
@@ -73,8 +87,23 @@ public class ParkingManager : MonoBehaviour
     {
         if (other.CompareTag("ParkingZone") && !isColliding)
         {
+            CheckParkingAlignment();
+        }
+    }
+
+    private void CheckParkingAlignment()
+    {
+        float angleDifference = Quaternion.Angle(transform.rotation, parkingZone.rotation);
+        Debug.Log("Parking Angle Difference: " + angleDifference);
+
+        if (angleDifference <= angleThreshold)
+        {
             isParkedCorrectly = true;
             ShowParkingSuccess();
+        }
+        else
+        {
+            Debug.Log("Bad Parking Alignment! Parking failed.");
         }
     }
 
@@ -98,10 +127,9 @@ public class ParkingManager : MonoBehaviour
         }
     }
 
-
     private void HideFinalScore()
     {
-        scoreText.gameObject.SetActive(false); // Hide the score text
+        scoreText.gameObject.SetActive(false);
     }
 
     private void HideWarning()
