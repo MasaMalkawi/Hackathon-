@@ -37,7 +37,7 @@ public class ScoreManager : MonoBehaviour
             Debug.LogError("UI Text is missing!");
     }
 }
-
+ 
 /*using UnityEngine;
 using UnityEngine.UI; // تأكد من استيراد مكتبة UI
 

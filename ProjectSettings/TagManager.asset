@@ -11,6 +11,8 @@ TagManager:
   - FrontCar
   - BackCar
   - ParkingZone
+  - Obstacle
+  - Collectable
   layers:
   - Default
   - TransparentFX
