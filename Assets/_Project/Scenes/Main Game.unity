@@ -13897,8 +13897,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.62, y: 2.76, z: 4.26}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3.3603826, y: 2.76, z: 0.20289277}
+  m_Center: {x: 0, y: 0, z: -0.40571123}
 --- !u!23 &472508242
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24768,7 +24768,10 @@ MonoBehaviour:
   isParkedCorrectly: 0
   parkingText: {fileID: 0}
   parkingImage: {fileID: 1598272506}
+  crashImage: {fileID: 1724059464}
   parkingSound: {fileID: 0}
+  crashSound: {fileID: 826766691}
+  parkingZoneTransform: {fileID: 440552657}
   rotationTolerance: 15
 --- !u!1001 &826837337
 PrefabInstance:
