@@ -6,7 +6,7 @@ public class SceneSwitcher : MonoBehaviour
     public void LoadNextScene()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(1); // Load the next scene (Change the index if needed)
+        SceneManager.LoadScene(currentSceneIndex+1); // Load the next scene (Change the index if needed)
     }
 
     public void QuitGame()
