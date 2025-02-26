@@ -1,27 +1,98 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class ParallelParkingCheck : MonoBehaviour
 {
-    public Transform frontCar;
-    public Transform backCar;
-    public float positionTolerance = 2.0f;
-    public float rotationTolerance = 10f;
     public bool isParkedCorrectly = false;
+
+    public TextMeshProUGUI parkingText;  // UI Text to display success message
+    public Image parkingImage;           // UI Image to show when parked
+    public AudioSource parkingSound;     // AudioSource to play a sound
+
+    private int parkingTriggersInside = 0; // Ensures whole car is inside
+    private bool isColliding = false; // Checks if the car is touching another vehicle
+
+    private void Start()
+    {
+        if (parkingText != null)
+            parkingText.gameObject.SetActive(false);
+
+        if (parkingImage != null)
+            parkingImage.gameObject.SetActive(false);
+    }
 
     private void Update()
     {
-        float frontDistance = Vector3.Distance(transform.position, frontCar.position);
-        float backDistance = Vector3.Distance(transform.position, backCar.position);
-        float angle = Quaternion.Angle(transform.rotation, frontCar.rotation);
+        // Ensure the whole car is inside and not colliding
+        if (parkingTriggersInside > 0 && !isColliding)
+        {
+            if (!isParkedCorrectly)
+            {
+                isParkedCorrectly = true;
+                ShowParkingSuccess();
+            }
+            return;
+        }
 
-        if (frontDistance > 2f && backDistance > 2f && angle < rotationTolerance)
+        // If conditions are not met, reset parked state
+        isParkedCorrectly = false;
+        HideParkingIndicator();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("ParkingZone"))
         {
-            isParkedCorrectly = true;
-            Debug.Log("Perfect parking between two cars!");
+            parkingTriggersInside++;
         }
-        else
+
+        if (other.CompareTag("FrontCar") || other.CompareTag("BackCar"))
         {
-            isParkedCorrectly = false;
+            isColliding = true;
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("ParkingZone"))
+        {
+            parkingTriggersInside--;
+        }
+
+        if (other.CompareTag("FrontCar") || other.CompareTag("BackCar"))
+        {
+            isColliding = false;
+        }
+    }
+
+    private void ShowParkingSuccess()
+    {
+        Debug.Log("Parked Successfully!");
+
+        if (parkingText != null)
+        {
+            parkingText.gameObject.SetActive(true);
+            parkingText.text = "Parked Successfully!";
+        }
+
+        if (parkingImage != null)
+        {
+            parkingImage.gameObject.SetActive(true);
+        }
+
+        if (parkingSound != null && !parkingSound.isPlaying)
+        {
+            parkingSound.Play();
+        }
+    }
+
+    private void HideParkingIndicator()
+    {
+        if (parkingText != null)
+            parkingText.gameObject.SetActive(false);
+
+        if (parkingImage != null)
+            parkingImage.gameObject.SetActive(false);
     }
 }
