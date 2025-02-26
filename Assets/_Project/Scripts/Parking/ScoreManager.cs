@@ -1,4 +1,57 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement; // استيراد مكتبة إدارة المشاهد
+
+public class ScoreManager : MonoBehaviour
+{
+    public int score = 100;
+    public Text scoreText;
+    public string gameOverSceneName = "GameOverScene"; // اسم المشهد الجديد
+
+    void Start()
+    {
+        if (scoreText == null)
+        {
+            scoreText = GameObject.Find("ScoreText")?.GetComponent<Text>();
+
+            if (scoreText == null)
+            {
+                Debug.LogError("UI Text object 'ScoreText' not found in the scene!");
+                return;
+            }
+        }
+
+        UpdateScoreText();
+    }
+
+    public void ReduceScore(int amount)
+    {
+        score -= amount;
+        if (score < 0) score = 0;
+        UpdateScoreText();
+
+        if (score == 0)
+        {
+            LoadGameOverScene();
+        }
+    }
+
+    void UpdateScoreText()
+    {
+        if (scoreText != null)
+            scoreText.text = "Score: " + score;
+        else
+            Debug.LogError("UI Text is missing!");
+    }
+
+    void LoadGameOverScene()
+    {
+        Debug.Log("Score reached 0. Loading Game Over scene...");
+        SceneManager.LoadScene(gameOverSceneName);
+    }
+}
+
+/*using UnityEngine;
 using UnityEngine.UI; // Import UI for Text component
 
 public class ScoreManager : MonoBehaviour
