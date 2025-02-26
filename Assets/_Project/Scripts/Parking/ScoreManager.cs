@@ -1,20 +1,20 @@
-﻿/*using UnityEngine;
-using TMPro; // Import TextMeshPro
+﻿using UnityEngine;
+using UnityEngine.UI; // Import UI for Text component
 
 public class ScoreManager : MonoBehaviour
 {
     public int score = 100;
-    public TMP_Text scoreText; // Ensure TMP_Text is used
+    public Text scoreText; // Use normal UI Text
 
     void Start()
     {
         if (scoreText == null)
         {
-            scoreText = GameObject.Find("ScoreText")?.GetComponent<TMP_Text>();
+            scoreText = GameObject.Find("ScoreText")?.GetComponent<Text>();
 
             if (scoreText == null)
             {
-                Debug.LogError("TextMeshPro object 'ScoreText' not found in the scene!");
+                Debug.LogError("UI Text object 'ScoreText' not found in the scene!");
                 return;
             }
         }
@@ -34,10 +34,11 @@ public class ScoreManager : MonoBehaviour
         if (scoreText != null)
             scoreText.text = "Score: " + score;
         else
-            Debug.LogError("TMP Text is missing!");
+            Debug.LogError("UI Text is missing!");
     }
-}*/
-using UnityEngine;
+}
+
+/*using UnityEngine;
 using UnityEngine.UI; // تأكد من استيراد مكتبة UI
 
 public class ScoreManager : MonoBehaviour
@@ -76,3 +77,4 @@ public class ScoreManager : MonoBehaviour
             Debug.LogError("❌ خطأ: عنصر Text غير موجود!");
     }
 }
+*/

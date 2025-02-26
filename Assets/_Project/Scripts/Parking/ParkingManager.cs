@@ -1,139 +1,112 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
-public class ParkingCheck : MonoBehaviour
+public class ParkingManager : MonoBehaviour
 {
     public bool isParkedCorrectly = false;
 
-    public TextMeshProUGUI parkingText;  // UI Text to display success message
-    public Image parkingImage;           // UI Image to show when parked
-    public Image crashImage;             // UI Image to show when crashed
-    public AudioSource parkingSound;     // AudioSource to play a sound
-    public AudioSource crashSound;       // Sound for collision
+    [Header("Scoring System")]
+    public float maxScore = 100f;
+    public float collisionPenalty = 20f;
+    public Text scoreText;
 
-    private bool isInsideParkingZone = false; // Checks if the car is inside the parking collider
-    private bool isColliding = false; // Checks if the car is touching another vehicle
+    [Header("Audio")]
+    public AudioSource parkingSound;
+    public AudioSource crashSound;
 
-    public Transform parkingZoneTransform; // Reference to the parking zone transform
-    public float rotationTolerance = 15f; // Allowable rotation error (degrees)
+    [Header("UI Elements")]
+    public GameObject parkingSuccessImage;
+    public GameObject warningImage;
 
-    private void Start()
+    private bool isColliding = false;
+    private bool scored = false;
+
+    void Start()
     {
-        if (parkingText != null)
-            parkingText.gameObject.SetActive(false);
+        if (scoreText != null)
+            scoreText.text = "Score: " + maxScore;
 
-        if (parkingImage != null)
-            parkingImage.gameObject.SetActive(false);
+        if (parkingSuccessImage != null)
+            parkingSuccessImage.SetActive(false);
 
-        if (crashImage != null)
-            crashImage.gameObject.SetActive(false);
+        if (warningImage != null)
+            warningImage.SetActive(false);
     }
 
     private void Update()
     {
-        if (isInsideParkingZone && !isColliding && IsRotationCorrect())
+        if (isParkedCorrectly && !scored)
         {
-            if (!isParkedCorrectly)
-            {
-                isParkedCorrectly = true;
-                ShowParkingSuccess();
-            }
-            return;
+            Debug.Log("Parked Successfully!");
+            ShowFinalScore();
+            scored = true;
         }
+    }
 
-        isParkedCorrectly = false;
-        HideParkingIndicator();
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isParkedCorrectly) return; // If already parked, ignore collisions
+
+        if (collision.gameObject.CompareTag("FrontCar") || collision.gameObject.CompareTag("BackCar"))
+        {
+            Debug.Log("Collision detected with: " + collision.gameObject.name);
+
+            maxScore -= collisionPenalty;
+            maxScore = Mathf.Max(maxScore, 0);
+            scoreText.text = "Score: " + maxScore;
+
+            if (crashSound != null && !crashSound.isPlaying)
+            {
+                crashSound.Play();
+                Debug.Log("Crash sound played!");
+            }
+
+            if (warningImage != null)
+            {
+                warningImage.SetActive(true);
+                Invoke("HideWarning", 3f);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("ParkingZone"))
+        if (other.CompareTag("ParkingZone") && !isColliding)
         {
-            isInsideParkingZone = true;
+            isParkedCorrectly = true;
+            ShowParkingSuccess();
         }
-
-        if (other.CompareTag("FrontCar") || other.CompareTag("BackCar"))
-        {
-            isColliding = true;
-            ShowCrashIndicator();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("ParkingZone"))
-        {
-            isInsideParkingZone = false;
-        }
-
-        if (other.CompareTag("FrontCar") || other.CompareTag("BackCar"))
-        {
-            isColliding = false;
-            HideCrashIndicator();
-        }
-    }
-
-    private bool IsRotationCorrect()
-    {
-        if (parkingZoneTransform == null) return true; // If no reference, ignore rotation check
-
-        float playerRotationY = transform.eulerAngles.y;
-        float parkingRotationY = parkingZoneTransform.eulerAngles.y;
-
-        float rotationDifference = Mathf.Abs(Mathf.DeltaAngle(playerRotationY, parkingRotationY));
-
-        return rotationDifference <= rotationTolerance;
     }
 
     private void ShowParkingSuccess()
     {
-        Debug.Log("Parked Successfully!");
-
-        if (parkingText != null)
-        {
-            parkingText.gameObject.SetActive(true);
-            parkingText.text = "Parked Successfully!";
-        }
-
-        if (parkingImage != null)
-        {
-            parkingImage.gameObject.SetActive(true);
-        }
+        if (parkingSuccessImage != null)
+            parkingSuccessImage.SetActive(true);
 
         if (parkingSound != null && !parkingSound.isPlaying)
-        {
             parkingSound.Play();
-        }
     }
 
-    private void HideParkingIndicator()
+    private void ShowFinalScore()
     {
-        if (parkingText != null)
-            parkingText.gameObject.SetActive(false);
-
-        if (parkingImage != null)
-            parkingImage.gameObject.SetActive(false);
-    }
-
-    private void ShowCrashIndicator()
-    {
-        Debug.Log("Collision detected!");
-
-        if (crashImage != null)
+        if (scoreText != null)
         {
-            crashImage.gameObject.SetActive(true);
-        }
-
-        if (crashSound != null && !crashSound.isPlaying)
-        {
-            crashSound.Play();
+            scoreText.gameObject.SetActive(true);
+            scoreText.text = "Final Score: " + maxScore.ToString("F0");
+            Debug.Log("Showing Final Score: " + maxScore);
+            Invoke("HideFinalScore", 10f);
         }
     }
 
-    private void HideCrashIndicator()
+
+    private void HideFinalScore()
     {
-        if (crashImage != null)
-            crashImage.gameObject.SetActive(false);
+        scoreText.gameObject.SetActive(false); // Hide the score text
+    }
+
+    private void HideWarning()
+    {
+        if (warningImage != null)
+            warningImage.SetActive(false);
     }
 }
