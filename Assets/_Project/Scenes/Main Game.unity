@@ -15557,12 +15557,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 424420288}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.009162842, z: 0, w: 0.99995804}
-  m_LocalPosition: {x: 234.45033, y: -3.184534, z: 91.14455}
+  m_LocalRotation: {x: -0, y: 0.009162842, z: -0, w: 0.99995804}
+  m_LocalPosition: {x: 25.946594, y: -4.6896515, z: 1.9549255}
   m_LocalScale: {x: 47.09, y: 2.14, z: 0.56}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 808572168}
   m_LocalEulerAnglesHint: {x: 0, y: 1.05, z: 0}
 --- !u!82 &424420292
 AudioSource:
@@ -16712,8 +16712,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.2028928, y: 2.76, z: 3}
-  m_Center: {x: 0, y: 0, z: -0.40571123}
+  m_Size: {x: 1.0177959, y: 2.76, z: 3}
+  m_Center: {x: 0.40744218, y: 0, z: -0.40571126}
 --- !u!23 &472508242
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16931,6 +16931,7 @@ Transform:
   - {fileID: 1898008841}
   - {fileID: 1221917849}
   - {fileID: 640568589}
+  - {fileID: 1325108118}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &488277530
@@ -28646,6 +28647,7 @@ Transform:
   - {fileID: 472508239}
   - {fileID: 2067005946}
   - {fileID: 1454946850}
+  - {fileID: 424420291}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &809888416
@@ -29611,12 +29613,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca719dcd9b07a3544a93be899fb42188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxScore: 100
+  maxScore: 50
   obstaclePenalty: 10
   collectableBonus: 5
   scoreText: {fileID: 802622821}
   crashSound: {fileID: 560690920}
   collectSound: {fileID: 1454946851}
+  gameOverSceneName: GameOverScene
+  winSceneName: Win
 --- !u!1001 &826837337
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46301,12 +46305,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1325108115}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.009162842, z: 0, w: 0.99995804}
-  m_LocalPosition: {x: 238.89975, y: -3.184534, z: 61.057957}
+  m_LocalRotation: {x: -0, y: 0.009162842, z: -0, w: 0.99995804}
+  m_LocalPosition: {x: 37.091415, y: -4, z: -7.2995453}
   m_LocalScale: {x: 47.09, y: 2.14, z: 0.56}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 486673644}
   m_LocalEulerAnglesHint: {x: 0, y: 1.05, z: 0}
 --- !u!82 &1325108119
 AudioSource:
@@ -57772,8 +57776,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de3796938cc3ddf40b3bc14c4adf2d1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 100
+  score: 50
   scoreText: {fileID: 1672272905}
+  gameOverSceneName: GameOverScene
+  winSceneName: Win
 --- !u!4 &1577996764
 Transform:
   m_ObjectHideFlags: 0
@@ -83234,7 +83240,5 @@ SceneRoots:
   - {fileID: 1156564214}
   - {fileID: 643203060}
   - {fileID: 1389544388}
-  - {fileID: 424420291}
-  - {fileID: 1325108118}
   - {fileID: 486673644}
   - {fileID: 1119022986}

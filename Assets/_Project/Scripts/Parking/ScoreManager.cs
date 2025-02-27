@@ -1,5 +1,72 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class ScoreManager : MonoBehaviour
+{
+    public int score = 50;  // بدأ السكور من 50
+    public Text scoreText;
+    public string gameOverSceneName = "GameOverScene";
+    public string winSceneName = "Win";  // اسم مشهد الفوز
+
+    void Start()
+    {
+        if (scoreText == null)
+        {
+            scoreText = GameObject.Find("ScoreText")?.GetComponent<Text>();
+
+            if (scoreText == null)
+            {
+                Debug.LogError("UI Text object 'ScoreText' not found in the scene!");
+                return;
+            }
+        }
+
+        UpdateScoreText();
+    }
+
+    public void ReduceScore(int amount)
+    {
+        score -= amount;
+        if (score < 0) score = 0;
+        UpdateScoreText();
+
+        if (score == 0)
+        {
+            LoadScene(gameOverSceneName);
+        }
+    }
+
+    public void IncreaseScore(int amount)
+    {
+        score += amount;
+        if (score > 100) score = 100;
+        UpdateScoreText();
+
+        if (score == 100)
+        {
+            LoadScene(winSceneName);
+        }
+    }
+
+    void UpdateScoreText()
+    {
+        if (scoreText != null)
+            scoreText.text = "Score: " + score;
+        else
+            Debug.LogError("UI Text is missing!");
+    }
+
+    void LoadScene(string sceneName)
+    {
+        Debug.Log($"Score reached {score}. Loading {sceneName} scene...");
+        SceneManager.LoadScene(sceneName);
+    }
+}
+
+
+/*using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement; 
 
 public class ScoreManager : MonoBehaviour
