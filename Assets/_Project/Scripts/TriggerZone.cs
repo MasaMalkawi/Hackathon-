@@ -3,13 +3,15 @@
 public class TriggerZone : MonoBehaviour
 {
     public AudioSource guideAudio;
+    private bool hasTriggered = false; 
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Player entered the trigger zone.");
-
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !hasTriggered)
         {
+            hasTriggered = true; 
+            Debug.Log("Player entered the trigger zone for the first time.");
+
             if (guideAudio != null && !guideAudio.isPlaying)
             {
                 guideAudio.Play();

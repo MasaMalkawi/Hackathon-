@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; // استيراد مكتبة إدارة المشاهد
+using UnityEngine.SceneManagement; 
 
 public class ScoreManager : MonoBehaviour
 {
     public int score = 100;
     public Text scoreText;
-    public string gameOverSceneName = "GameOverScene"; // اسم المشهد الجديد
+    public string gameOverSceneName = "GameOverScene"; 
 
     void Start()
     {

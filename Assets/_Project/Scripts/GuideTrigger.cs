@@ -3,16 +3,18 @@ using UnityEngine.UI;
 
 public class GuideTrigger : MonoBehaviour
 {
-
     public AudioSource guideAudio;
-    public Image guideImage; // صورة تُعرض عند دخول اللاعب
+    public Image guideImage;
+    private bool hasTriggered = false; 
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Player entered the trigger zone.");
-
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !hasTriggered)
         {
+            hasTriggered = true; 
+
+            Debug.Log("Player entered the trigger zone.");
+
             if (guideAudio != null && !guideAudio.isPlaying)
             {
                 guideAudio.Play();
@@ -21,7 +23,7 @@ public class GuideTrigger : MonoBehaviour
 
             if (guideImage != null)
             {
-                guideImage.gameObject.SetActive(true); // عرض الصورة
+                guideImage.gameObject.SetActive(true);
                 Debug.Log("Guide image is now visible.");
             }
         }
@@ -31,10 +33,8 @@ public class GuideTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player") && guideImage != null)
         {
-            guideImage.gameObject.SetActive(false); // إخفاء الصورة عند خروج اللاعب
+            guideImage.gameObject.SetActive(false);
             Debug.Log("Guide image is now hidden.");
         }
     }
 }
-
-
